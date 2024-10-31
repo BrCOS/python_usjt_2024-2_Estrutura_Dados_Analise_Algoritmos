@@ -10,6 +10,7 @@
 | Erik Akio Matsumoto              | 821115561 |
 | Gabriel Guardiano do Nascimento  | 821145633 |
 | Mariana de Moraes Marcondes      | 821116771 |
+| Renan Moura Silva                | 821145633 | 
 | Vinícius Peralta                 | 821222997 |
 
 
