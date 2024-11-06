@@ -3,8 +3,9 @@ import heapq
 def dijkstra(grafo, inicio):
     distancias = {cidade: float('inf') for cidade in grafo}
     distancias[inicio] = 0
-    caminho = {cidade: None for cidade in grafo}
-
+    rota = {cidade: [] for cidade in grafo}
+    rota[inicio] = [inicio]
+    
     filaPrioridade = [(0, inicio)]
 
     while filaPrioridade:
@@ -13,12 +14,12 @@ def dijkstra(grafo, inicio):
         if distanciaAtual > distancias[cidadeAtual]:
             continue
 
-    for vizinho, peso in grafo[cidadeAtual].items():
-        distancia = distanciaAtual + peso
+        for vizinho, peso in grafo[cidadeAtual].items():
+            distancia = distanciaAtual + peso
 
-        if distancia < distancias[vizinho]:
-            distancias[vizinho] = distancia
-            caminho[vizinho] = cidadeAtual
-            heapq.heappush(filaPrioridade, (distancia, vizinho))
+            if distancia < distancias[vizinho]:
+                distancias[vizinho] = distancia
+                rota[vizinho] = rota[cidadeAtual] + [vizinho]
+                heapq.heappush(filaPrioridade, (distancia, vizinho))
     
-    return distancias, caminho
+    return rota
