@@ -1,5 +1,5 @@
 def definirCaminhao(pesoCarga, prioridade, centro):
-    if prioridade and pesoCarga <= 35:
+    if prioridade and pesoCarga <= 20:
         tipoCaminhao = 'Toco'#tipo do caminhao
         capacidadeCaminhao = 8#capacidade em toneladas
     else:
