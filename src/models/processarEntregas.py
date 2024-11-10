@@ -7,11 +7,18 @@ def processarEntregas(grafo, entregas):
     rotasCentros = otimizarRotas(grafo, cidadesDestino)#recebe a rota ja otimizada (dicionario (centro - chave) e ([] de cidades - valores))
 
     for entrega in entregas:
-        cidade, peso, prioridade = entrega#lista de cidades, peso e prioridade do usuario
+        cidade, pesoCarga, prioridade = entrega#lista de cidades, peso e prioridade do usuario
         for centro, rota in rotasCentros.items():#acessa o centro e a cidade do dicionario
             if cidade in rota:#define o caminhao
-                tipoCaminhao, capacidadeRestanteCaminhao, porcentagemUsadaCaminhao, porcentagemRestanteCaminhao = definirCaminhao(peso, prioridade, centro)
+                tipoCaminhao, capacidadeCaminhao, capacidadeRestanteCaminhao, porcentagemUsadaCaminhao, porcentagemRestanteCaminhao = definirCaminhao(pesoCarga, prioridade, centro)
                 
+                if pesoCarga > capacidadeRestanteCaminhao:
+                    print(
+                        f'ERRO: O peso máximo do caminhão {tipoCaminhao} do centro {centro}, foi atingido.'
+                        f'\nSua capacidade é de: {capacidadeCaminhao} Toneladas e foi utilizado {porcentagemUsadaCaminhao}% da capacidade total!'
+                        )
+                    break
+
                 distanciaTotal = 0#peso total (distancia) zerado
 
                 #percorrendo a lista de cidades da rota
