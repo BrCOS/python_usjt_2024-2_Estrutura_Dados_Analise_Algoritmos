@@ -10,7 +10,7 @@ def processarEntregas(grafo, entregas):
         cidade, pesoCarga, prioridade = entrega#lista de cidades, peso e prioridade do usuario
         for centro, rota in rotasCentros.items():#acessa o centro e a cidade do dicionario
             if cidade in rota:#define o caminhao
-                tipoCaminhao, capacidadeRestanteCaminhao, porcentagemUsadaCaminhao, porcentagemRestanteCaminhao = definirCaminhao(pesoCarga, prioridade, centro)
+                tipoCaminhao, capacidadeRestanteCaminhao, porcentagemUsadaCaminhao, porcentagemRestanteCaminhao = definirCaminhao(pesoCarga, prioridade)
 
                 distanciaTotal = 0#peso total (distancia) zerado
 
@@ -27,7 +27,7 @@ def processarEntregas(grafo, entregas):
                 
                 print('\nInformações de Entrega:')
                 print(f'Centro: {centro}')
-                print(f'Rota: {' -> '.join(rota)}')
+                print(f"Rota: {' -> '.join(rota)}")
                 print(f'Cidade de Destino: {cidade}')
                 print(f'Prazo de Entrega: {prazo} dias')
                 print('Informações do Caminhão:')
