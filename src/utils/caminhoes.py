@@ -6,12 +6,14 @@ def definirCaminhao(pesoCarga, prioridade, centro):
         tipoCaminhao = 'Truck'
         capacidadeCaminhao = 14
 
-    capacidadeRestanteCaminhao = capacidadeCaminhao - pesoCarga#valor num (provavel int)
-    porcentagemUsadaCaminhao = (pesoCarga / capacidadeCaminhao) * 100#valor em porcentagem
-    porcentagemRestanteCaminhao = 100 - porcentagemUsadaCaminhao#valor em porcentagem
-
-    if pesoCarga > capacidadeCaminhao:
-        print(f'ERRO: O peso máximo do caminhão {tipoCaminhao} do centro {centro}, foi atingido.
-              \nSua capacidade é de: {capacidadeCaminhao} e foi utilizado {porcentagemUsadaCaminhao}%')
+    capacidadeRestante = capacidadeCaminhao - pesoCarga#valor num (provavel int)
+    porcentagemUsada = (pesoCarga / capacidadeCaminhao) * 100#valor em porcentagem
+    porcentagemRestante = 100 - porcentagemUsada#valor em porcentagem
     
-    return tipoCaminhao, capacidadeRestanteCaminhao, porcentagemUsadaCaminhao, porcentagemRestanteCaminhao
+    if pesoCarga > capacidadeCaminhao:
+        print(
+            f'ERRO: O peso máximo do caminhão {tipoCaminhao} do centro {centro}, foi atingido.'
+            f'\nSua capacidade é de: {capacidadeCaminhao} e foi utilizado {porcentagemUsada}%'
+            )
+        
+    return tipoCaminhao, capacidadeRestante, porcentagemUsada, porcentagemRestante
