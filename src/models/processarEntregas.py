@@ -10,14 +10,7 @@ def processarEntregas(grafo, entregas):
         cidade, pesoCarga, prioridade = entrega#lista de cidades, peso e prioridade do usuario
         for centro, rota in rotasCentros.items():#acessa o centro e a cidade do dicionario
             if cidade in rota:#define o caminhao
-                tipoCaminhao, capacidadeCaminhao, capacidadeRestanteCaminhao, porcentagemUsadaCaminhao, porcentagemRestanteCaminhao = definirCaminhao(pesoCarga, prioridade, centro)
-                
-                if pesoCarga > capacidadeRestanteCaminhao:
-                    print(
-                        f'ERRO: O peso máximo do caminhão {tipoCaminhao} do centro {centro}, foi atingido.'
-                        f'\nSua capacidade é de: {capacidadeCaminhao} Toneladas e foi utilizado {porcentagemUsadaCaminhao}% da capacidade total!'
-                        )
-                    break
+                tipoCaminhao, capacidadeRestanteCaminhao, porcentagemUsadaCaminhao, porcentagemRestanteCaminhao = definirCaminhao(pesoCarga, prioridade, centro)
 
                 distanciaTotal = 0#peso total (distancia) zerado
 

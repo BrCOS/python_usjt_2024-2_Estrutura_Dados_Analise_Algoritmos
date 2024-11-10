@@ -5,5 +5,5 @@ from src.models.processarEntregas import processarEntregas
 def main():
     entregas = entradaUsuario(grafo)
     processarEntregas(grafo, entregas)
-    
+
 main()
