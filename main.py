@@ -1,11 +1,9 @@
 from data.dicionarioGrafo import grafo
-from src.models.dijkstra import dijkstra
+from src.utils.inputEntregas import entradaUsuario
+from src.models.processarEntregas import processarEntregas
 
 def main():
-    distancias, caminho = dijkstra(grafo, 'Belem_Centro')
+    entregas = entradaUsuario(grafo)
+    processarEntregas(grafo, entregas)
     
-    print('Distancias: ', distancias)
-    print('\n')
-    print('Caminho: ', caminho)
-
 main()
