@@ -48,5 +48,5 @@ def dijkstra(grafo, centro, destinos):
             if ponto not in visitados:#se nao foi visitado, adiciona como visitado
                 caminhoFinal.append(ponto)
                 visitados.add(ponto)
-    print(caminhoFinal)
+
     return caminhoFinal
