@@ -36,8 +36,8 @@ def dijkstra(grafo, centro, destinos):
             caminhoDestinos[destino] = caminhos[destino]#passa o destino como chave e o valor eh o caminho de caminhos
 
     #evitar que ponto seja re-visitado
-    caminhoFinal = [centro]#começa com o centro
-    visitados = set(caminhoFinal)
+    rota = [centro]#começa com o centro
+    visitados = set(rota)
 
     #ordenar pela menor distancia (peso) - ordem crescente
     destinosOrdem = sorted(destinos, key=lambda d: distancias[d])#distancia do centro ate o destino (0 - cidade destino)
@@ -46,7 +46,7 @@ def dijkstra(grafo, centro, destinos):
     for destino in destinosOrdem:
         for ponto in caminhoDestinos[destino]:
             if ponto not in visitados:#se nao foi visitado, adiciona como visitado
-                caminhoFinal.append(ponto)
+                rota.append(ponto)
                 visitados.add(ponto)
 
-    return caminhoFinal
+    return rota
