@@ -1,36 +1,58 @@
-from src.models.rotas import otimizarRotas
 from src.utils.prazo import calcularPrazo
-from src.utils.caminhoes import definirCaminhao
+from src.utils.controleCaminhoes import Caminhoes
 
-def processarEntregas(grafo, entregas):
-    cidadesDestino = [entrega[0] for entrega in entregas]#acessa o primeiro index da lista (cidade)
-    rotasCentros = otimizarRotas(grafo, cidadesDestino)#recebe a rota ja otimizada (dicionario (centro - chave) e ([] de cidades - valores))
+#recebe a rota otimizada do rotas.py
+#calcula prazo de cada entrega
+#aloca caminhoes
 
-    for entrega in entregas:
-        cidade, pesoCarga, prioridade = entrega#lista de cidades, peso e prioridade do usuario
-        for centro, rota in rotasCentros.items():#acessa o centro e a cidade do dicionario
-            if cidade in rota:#define o caminhao
-                tipoCaminhao, capacidadeRestanteCaminhao, porcentagemUsadaCaminhao, porcentagemRestanteCaminhao = definirCaminhao(pesoCarga, prioridade)
+def processarEntregas(grafo, rotasOtimizadas, centroGrupo):
+    #iterar sobre cada centro (chave) e destinos (valores)
+    for centro, destinos in centroGrupo.items():
+        #verificar se tem destinos no dicionario
+        if destinos:
+            rota = rotasOtimizadas[centro]#passa o centro atual como chave
 
-                distanciaTotal = 0#peso total (distancia) zerado
+            #instancia da classe caminhoes p/ cada centro (cria objeto p/ cada centro)
+            controleCaminhoes = Caminhoes()
 
-                #percorrendo a lista de cidades da rota
-                for i in range(len(rota) - 1):#-1 p/ nao fugir do index da []
-                    cidadeAtual = rota[i]#indice atual da []
-                    proximaCidade = rota[i+1]#proxima cidade da [] (a ser entregue)
+            #soma do peso (distancia) percorridas nas cidades da rota
+            distanciaTotal = 0
+            
+            #armazena os prazos de entrega de cada cidade
+            prazosEntrega = {}
 
-                    #repassa no grafo p/ garantir que tem uma conexao entre as cidades
-                    if cidadeAtual in grafo and proximaCidade in grafo[cidadeAtual]:
-                        distanciaTotal += grafo[cidadeAtual][proximaCidade]#passa o peso (distancia) entre as cidades p/ calcular o prazo
+            #percorre a lista de cidades da rota
+            for i in range(len(rota) - 1):#-1 p/ nao fugir do index da []
+                cidadeAtual = rota[i]#indice atual da []
+                proximaCidade = rota[i+1]#proxima cidade da [] (a ser entregue)
 
-                prazo = calcularPrazo(distanciaTotal)
-                
-                print('\nInformações de Entrega:')
-                print(f'Centro: {centro}')
-                print(f"Rota: {' -> '.join(rota)}")
-                print(f'Cidade de Destino: {cidade}')
-                print(f'Prazo de Entrega: {prazo} dias')
-                print('Informações do Caminhão:')
-                print(f'Caminhão: {tipoCaminhao}')
-                print(f'Porcentagem Usada do Caminhão: {porcentagemUsadaCaminhao:.2f}%')
-                print(f'Capacidade Restante do Caminhão: {capacidadeRestanteCaminhao:.2f} Ton. ou {porcentagemRestanteCaminhao:.2f}%')
+                #repassa o grafo p/ garantir que tem uma conexao entre as cidades
+                if cidadeAtual in grafo and proximaCidade in grafo[cidadeAtual]:
+                    distanciaTotal += grafo[cidadeAtual][proximaCidade]#passa o peso (distancia) entre as cidades p/ calcular o prazo
+
+                    #iterar sobre os destinos da [] do centro atual
+                    for destino, peso, prioridade in destinos:
+                        #garante que a cidade atual == ao destino da [] (o caminhao esta indo p/ cidade de destino)
+                        if proximaCidade == destino:
+                            #usado um try por conta do erro personalizado na classe caminhoes
+                            try:
+                                #chama o metodo da classe caminhoes p/ alocar o peso da carga no caminhao
+                                controleCaminhoes.alocarCarga(peso, prioridade)
+                            except ValueError as e:#caso capacidade ultrapassada aconteca
+                                print(f'Erro no Centro {centro}: {e}')#informa o centro e a msg da classe
+                                return
+
+                            #calcular os prazos de entrega (distancia acumulada ate o destino)
+                            prazoEntrega = calcularPrazo(distanciaTotal)
+
+                            #passa a cidade destino como chave e o prazo como valor do dic
+                            prazosEntrega[destino] = prazoEntrega
+            
+            print(f'\nInformações de Entrega para o Centro: {centro}')
+            print(f'Rota: {' -> '.join(rota)}')
+            for destino, peso, prioridade in destinos:
+                print(f'\nCidade de Destino: {destino}')
+                print(f'Peso da Carga: {peso} toneladas')
+                print(f'Prazo de Entrega: {prazosEntrega[destino]} dias.\n')
+
+            controleCaminhoes.printCaminhoes()
