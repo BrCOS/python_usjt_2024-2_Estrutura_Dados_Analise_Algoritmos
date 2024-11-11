@@ -1,13 +1,13 @@
 import heapq
 
-def dijkstra(grafo, inicio):
+def dijkstra(grafo, centro, destinos):
     distancias = {cidade: float('inf') for cidade in grafo}#cidades com o peso infinito
-    distancias[inicio] = 0#inicio definido como 0 (cidade de partida - centro)
+    distancias[centro] = 0#inicio definido como 0 (cidade de partida - centro)
 
-    caminho = {cidade: [] for cidade in grafo}#[] recebe o menor caminho (return)
-    caminho[inicio] = [inicio]#define o caminho 0 (centro) ate ele mesmo (ponto inicial do algoritmo)
+    caminhos = {cidade: [] for cidade in grafo}#[] recebe o menor caminho (return)
+    caminhos[centro] = [centro]#define o caminho 0 (centro) ate ele mesmo (ponto inicial do algoritmo)
 
-    filaPrioridade = [(0, inicio)]#define o centro como prioridade (distancia (peso) 0)
+    filaPrioridade = [(0, centro)]#define o centro como prioridade (distancia (peso) 0)
 
     #continuar enquanto tiver elementos na lista []
     while filaPrioridade:#while pq a [] nao tem tamanho fixo
@@ -26,7 +26,27 @@ def dijkstra(grafo, inicio):
             #compara o peso (distancia) com a atual e atualiza a []
             if distancia < distancias[vizinho]:
                 distancias[vizinho] = distancia#atualiza a cidade com o menor caminho encontrado
-                caminho[vizinho] = caminho[cidadeAtual] + [vizinho]#passa o menor caminho seguindo do vizinho
+                caminhos[vizinho] = caminhos[cidadeAtual] + [vizinho]#passa o menor caminho seguindo do vizinho
                 heapq.heappush(filaPrioridade, (distancia, vizinho))#passa o caminho mais curto p/ while
+        
+    #filtra os destinos que tem um caminho
+    caminhoDestinos = {}
+    for destino in destinos:
+        if destino in caminhos:#verifica se o destino esta no dicionario caminhos (se tem um caminho)
+            caminhoDestinos[destino] = caminhos[destino]#passa o destino como chave e o valor eh o caminho de caminhos
 
-    return caminho
+    #evitar que ponto seja re-visitado
+    caminhoFinal = [centro]#começa com o centro
+    visitados = set(caminhoFinal)
+
+    #ordenar pela menor distancia (peso) - ordem crescente
+    destinosOrdem = sorted(destinos, key=lambda d: distancias[d])#distancia do centro ate o destino (0 - cidade destino)
+
+    #percorre cada destino ordenado
+    for destino in destinosOrdem:
+        for ponto in caminhoDestinos[destino]:
+            if ponto not in visitados:#se nao foi visitado, adiciona como visitado
+                caminhoFinal.append(ponto)
+                visitados.add(ponto)
+    print(caminhoFinal)
+    return caminhoFinal
