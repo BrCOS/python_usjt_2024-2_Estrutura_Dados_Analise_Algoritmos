@@ -49,7 +49,7 @@ def processarEntregas(grafo, rotasOtimizadas, centroGrupo):
                             prazosEntrega[destino] = prazoEntrega
             
             print(f'\nInformações de Entrega para o Centro: {centro}')
-            print(f'Rota: {' -> '.join(rota)}')
+            print(f"Rota: {' -> '.join(rota)}")
             for destino, peso, prioridade in destinos:
                 print(f'\nCidade de Destino: {destino}')
                 print(f'Peso da Carga: {peso} toneladas')
