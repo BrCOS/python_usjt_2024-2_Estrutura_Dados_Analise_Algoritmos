@@ -1,3 +1,5 @@
+from data.dicionarioGrafo import grafo
+
 def criaMatrizAdjacencia(grafo):
 
     vertices = list(grafo.keys())
@@ -20,3 +22,5 @@ def criaMatrizAdjacencia(grafo):
 
     for linha in matrizAdjacencia:
         print(linha)
+
+criaMatrizAdjacencia(grafo)
