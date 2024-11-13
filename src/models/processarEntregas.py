@@ -34,16 +34,16 @@ def processarEntregas(grafo, rotasOtimizadas, centroGrupo):
                     for destino, peso, prioridade in destinos:
                         #garante que a cidade atual == ao destino da [] (o caminhao esta indo p/ cidade de destino)
                         if proximaCidade == destino:
+                            #calcular os prazos de entrega (distancia acumulada ate o destino)
+                            prazoEntrega = calcularPrazo(distanciaTotal)
+
                             #usado um try por conta do erro personalizado na classe caminhoes
                             try:
                                 #chama o metodo da classe caminhoes p/ alocar o peso da carga no caminhao
-                                controleCaminhoes.alocarCarga(peso, prioridade)
+                                controleCaminhoes.alocarCarga(peso, prioridade, prazoEntrega)
                             except ValueError as e:#caso capacidade ultrapassada aconteca
                                 print(f'Erro no Centro {centro}: {e}')#informa o centro e a msg da classe
                                 return
-
-                            #calcular os prazos de entrega (distancia acumulada ate o destino)
-                            prazoEntrega = calcularPrazo(distanciaTotal)
 
                             #passa a cidade destino como chave e o prazo como valor do dic
                             prazosEntrega[destino] = prazoEntrega

@@ -8,9 +8,9 @@ class Caminhoes:
                         }
 
 
-    def alocarCarga(self, pesoCarga, prioridade):
+    def alocarCarga(self, pesoCarga, prioridade, prazo):
         #define o caminhao conforme a capacidade e o peso da carga
-        if prioridade and pesoCarga <= self.capacidadeToco:
+        if prioridade and pesoCarga <= self.capacidadeToco and prazo < 2:
             tipoCaminhao = 'Toco'
             capacidadeCaminhao = self.capacidadeToco
         else:
