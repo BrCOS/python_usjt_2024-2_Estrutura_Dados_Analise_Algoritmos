@@ -21,7 +21,12 @@ Desenvolver um algorítmo que otimize o roteamento de entregas entre centros de 
 ## Parâmetros Utilizados
 
 - 2 Caminhões por centro (Truck e Toco), com 14 e 8 toneladas cada, respectivamente.
-- Os motoristas dirigem em uma velocidade média de 90 km/h por 10 horas diárias.
-- Entregas de com prioridade e com uma distância menor do que 300km do centro de distribuição mais perto, devem ser enviadas através do caminhão toco.
+- Os motoristas dirigem em uma velocidade média de 70 km/h por 10 horas diárias.
+- Entregas de com prioridade e com o prazo de entrega do mesmo dia devem ser enviadas através do caminhão toco.
 - É gerado um grafo para cada centro de distribuição, considerando as cidades de destino.
-- O algoritmo de Dijkstra é utilizado para gerar a ordem das entregas com base na distância e prioridade.
+- O algoritmo de Dijkstra com multiplas paradas é utilizado para gerar a ordem das entregas com base na distância e prioridade.
+- Utilizamos o Heap para garantir uma execução mais otimizada do código.
+- Cria uma matriz de adjancencia com base no grafo principal para melhor visualização.
+
+
+![IMG](docs/grafo.png)
